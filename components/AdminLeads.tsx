@@ -46,8 +46,8 @@ export function AdminLeads() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (!res.ok) setError("Failed to update status");
     await load();
+    if (!res.ok) setError("Failed to update status");
   }
 
   return (

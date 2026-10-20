@@ -77,7 +77,11 @@ export async function syncLeadToBoldTrail(
   try {
     env = getServerEnv();
   } catch (error) {
-    return { success: false, statusCode: 0, message: String(error) };
+    return {
+      success: false,
+      statusCode: 0,
+      message: error instanceof Error ? error.message : String(error),
+    };
   }
   if (!env.BOLDTRAIL_WEBHOOK_URL) {
     return {

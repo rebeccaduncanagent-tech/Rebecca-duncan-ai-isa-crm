@@ -37,7 +37,7 @@ export function scoreLead(lead: LeadInput): number {
     else if (answers.reason === "other") score += 8;
     if (answers.priceExpectation.min > 0 && answers.priceExpectation.max > 0)
       score += 10;
-    score += 5;
+    if (answers.beds > 0 && answers.baths > 0) score += 5;
   }
   return Math.max(0, Math.min(100, score));
 }

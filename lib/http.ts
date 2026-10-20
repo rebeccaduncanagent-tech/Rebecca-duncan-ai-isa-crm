@@ -19,6 +19,7 @@ export function errorResponse(error: unknown) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
   console.error("[api] unexpected error:", error);
-  const message = error instanceof EnvError ? error.message : "Internal error";
+  const message =
+    error instanceof EnvError ? "Server misconfigured" : "Internal error";
   return NextResponse.json({ error: message }, { status: 500 });
 }

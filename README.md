@@ -42,7 +42,7 @@ npm run build
 - `POST /api/leads` — validate, score, qualify, store, attempt BoldTrail sync (failures are logged and returned in `meta.boldtrail`, never blocking)
 - `GET /api/leads?type=&status=&temperature=` — list leads
 - `PATCH /api/leads/:id/status` — body `{ "status": "new|contacted|qualified|nurtured" }`
-- `POST /api/webhooks/boldtrail/test` — sends a sample lead (or returns a dry-run payload preview if no webhook URL is set)
+- `POST /api/webhooks/boldtrail/test` — (disabled in production) sends a sample lead (or returns a dry-run payload preview if no webhook URL is set)
 
 ## How lead scoring works
 

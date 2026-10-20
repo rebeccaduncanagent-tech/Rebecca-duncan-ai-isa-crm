@@ -26,6 +26,12 @@ const sampleLead: LeadInput = {
 
 /** Sends a sample lead to BoldTrail, or returns the payload preview (dry run) if no webhook URL is set. */
 export async function POST() {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "Not available in production" },
+      { status: 404 },
+    );
+  }
   try {
     const payload = toBoldTrailPayload(sampleLead);
     if (!getServerEnv().BOLDTRAIL_WEBHOOK_URL) {
