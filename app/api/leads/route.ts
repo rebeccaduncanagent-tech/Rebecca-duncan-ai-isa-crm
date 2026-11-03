@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { syncLeadToBoldTrail } from "@/lib/boldtrail";
+import { isAdminRequest, unauthorized } from "@/lib/auth";
 import { errorResponse } from "@/lib/http";
 import { getQualifier } from "@/lib/qualifier";
 import { getLeadRepository } from "@/lib/repository";
@@ -44,6 +45,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  if (!isAdminRequest(request)) return unauthorized();
   try {
     const params = new URL(request.url).searchParams;
     const filter = leadFilterSchema.parse({

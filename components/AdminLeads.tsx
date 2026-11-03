@@ -25,6 +25,10 @@ export function AdminLeads() {
     if (status) qs.set("status", status);
     try {
       const res = await fetch(`/api/leads?${qs}`, { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
       if (!res.ok) throw new Error(`Request failed (${res.status})`);
       setLeads((await res.json()).leads);
       setError(null);

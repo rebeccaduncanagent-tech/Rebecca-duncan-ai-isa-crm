@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { syncLeadToBoldTrail, toBoldTrailPayload } from "@/lib/boldtrail";
+import { isAdminRequest, unauthorized } from "@/lib/auth";
 import { getServerEnv } from "@/lib/env";
 import { errorResponse } from "@/lib/http";
 import type { LeadInput } from "@/lib/types";
@@ -24,14 +25,9 @@ const sampleLead: LeadInput = {
   source: "boldtrail-test",
 };
 
-/** Sends a sample lead to BoldTrail, or returns the payload preview (dry run) if no webhook URL is set. */
-export async function POST() {
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.json(
-      { error: "Not available in production" },
-      { status: 404 },
-    );
-  }
+/** Admin only. Sends a sample lead to BoldTrail, or returns the payload preview (dry run) if no webhook URL is set. */
+export async function POST(request: Request) {
+  if (!isAdminRequest(request)) return unauthorized();
   try {
     const payload = toBoldTrailPayload(sampleLead);
     if (!getServerEnv().BOLDTRAIL_WEBHOOK_URL) {
